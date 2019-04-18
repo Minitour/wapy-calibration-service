@@ -36,3 +36,6 @@
 /.teamcity/*.iml
 /.teamcity/target
 !/.teamcity/Gradle_Check_dsl.iml
+node_modules/
+
+package-lock\.json

@@ -1,0 +1,22 @@
+{
+  "name": "wapy-calibration-service",
+  "version": "1.0.0",
+  "description": "The calibration service for the camera frontend.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Minitour/wapy-calibration-service.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Minitour/wapy-calibration-service/issues"
+  },
+  "homepage": "https://github.com/Minitour/wapy-calibration-service#readme",
+  "dependencies": {
+    "bleno-mac": "github:notjosh/bleno-mac"
+  }
+}
