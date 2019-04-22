@@ -8,7 +8,7 @@ class InfoCharacteristic {
     constructor() {
         InfoCharacteristic.super_.call(this, {
             uuid: 'ec0e',
-            properties: ['read','write','notify']
+            properties: ['read']
         });
     }
     onReadRequest(offset, callback) {
