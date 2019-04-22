@@ -1,5 +1,5 @@
 const util = require('util');
-const bleno = require('bleno-mac');
+const bleno = require('bleno');
 const InfoCharacteristic = require('./info-characteristic');
 
 const BlenoPrimaryService = bleno.PrimaryService;

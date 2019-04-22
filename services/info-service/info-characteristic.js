@@ -1,4 +1,4 @@
-const bleno = require('bleno-mac');
+const bleno = require('bleno');
 const util = require('util');
 
 const Descriptor = bleno.Descriptor;
@@ -20,11 +20,37 @@ class InfoCharacteristic {
             'paired' : false,
             'step' : 0
         }
-
+        console.log(offset);
         const res = JSON.stringify(data)
         console.log(res)
-        callback(this.RESULT_SUCCESS, new Buffer([1]));
+        callback(this.RESULT_SUCCESS, new Buffer(res).slice(offset,offset + 22));
     }
+
+    onWriteRequest(data, offset, withoutResponse, callback) {
+        this._value = data;
+      
+        console.log('EchoCharacteristic - onWriteRequest: value = ' + this._value.toString('hex'));
+      
+        if (this._updateValueCallback) {
+          console.log('EchoCharacteristic - onWriteRequest: notifying');
+      
+          this._updateValueCallback(this._value);
+        }
+      
+        callback(this.RESULT_SUCCESS);
+      }
+
+      onSubscribe(maxValueSize, updateValueCallback) {
+        console.log('EchoCharacteristic - onSubscribe');
+      
+        this._updateValueCallback = updateValueCallback;
+      }
+      
+      onUnsubscribe() {
+        console.log('EchoCharacteristic - onUnsubscribe');
+      
+        this._updateValueCallback = null;
+      }
 }
 
 util.inherits(InfoCharacteristic, Characteristic);

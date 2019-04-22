@@ -1,6 +1,4 @@
-
-process.env['BLENO_DEVICE_NAME'] = 'custom device name';
-const bleno = require('bleno-mac')
+const bleno = require('bleno')
 
 const InfoService = require('./services/info-service/info-service');
 
