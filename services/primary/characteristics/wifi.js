@@ -56,9 +56,11 @@ class WifiCharacteristic {
         
         // send response
         const res = JSON.stringify(data)
-        console.log(res)
+        var val = Buffer.from(res).slice(offset, offset + 184)
+        console.log(val)
+        
         console.log(offset)
-        callback(this.RESULT_SUCCESS, Buffer.from(res).slice(offset, offset + 184));
+        callback(this.RESULT_SUCCESS, val);
     }
 }
 
