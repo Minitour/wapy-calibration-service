@@ -1,6 +1,6 @@
 const bleno = require('bleno');
 const util = require('util');
-
+const iwlist = require('wireless-tools/iwlist');
 const Characteristic = bleno.Characteristic;
 
 function makeid(length) {
@@ -42,7 +42,7 @@ class WifiCharacteristic {
         data.lastscanned = this.wifiData.ttl
     
         // update ttl for additional 3 seconds
-        this.wifiData.ttl += 3000
+        this.wifiData.ttl += 100
 
         
         // send response
