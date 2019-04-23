@@ -18,10 +18,10 @@ process.env['_CHAR_WIFI_ID'] = '307fd0967cd34a159fa05cfdbca97342';
 
 const bleno = require('bleno')
 
-const InfoService = require('./services/primary/service');
+const PrimaryService = require('./services/primary/service');
 
 var services = [
-    new InfoService()
+    new PrimaryService()
 ]
 
 var servicesUuids = services.map( service => service.uuid);

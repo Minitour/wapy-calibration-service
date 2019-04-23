@@ -6,7 +6,7 @@ const WifiCharacteristic = require('./characteristics/wifi')
 const BlenoPrimaryService = bleno.PrimaryService;
 
 function PrimaryService() {
-    InfoService.super_.call(this, {
+    PrimaryService.super_.call(this, {
         uuid: process.env['_SERVICE_ID'],
         characteristics: [
             new InfoCharacteristic(),
