@@ -1,35 +1,23 @@
 const bleno = require('bleno');
 const util = require('util');
 
-const Descriptor = bleno.Descriptor;
 const Characteristic = bleno.Characteristic;
-
-function makeid(length) {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < length; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
-}
 
 class InfoCharacteristic {
     constructor() {
         InfoCharacteristic.super_.call(this, {
-            uuid: 'ec0e',
+            uuid: process.env['_CHAR_INFO_ID'],
             properties: ['read','write','notify']
         });
     }
     onReadRequest(offset, callback) {
-
+        // TODO: create data object from real data.
         // The payload to send. This data should be read from a singleton.
         const data = {
             'version' : '1.0.0',
             'name' : 'The Box',
             'paired' : false,
-            'step' : 0,
-            'random_id' : makeid(300)
+            'step' : 0
         }
         const res = JSON.stringify(data)
         console.log(offset)
