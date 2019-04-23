@@ -34,7 +34,7 @@ class InfoCharacteristic {
         const res = JSON.stringify(data)
         console.log(offset)
         console.log(res)
-        callback(this.RESULT_SUCCESS, Buffer.from(res));
+        callback(this.RESULT_SUCCESS, Buffer.from(res).slice(offset, offset + 184));
     }
 
     onWriteRequest(data, offset, withoutResponse, callback) {
