@@ -3,7 +3,15 @@ const util = require('util');
 
 const Characteristic = bleno.Characteristic;
 
+function makeid(length) {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+  for (var i = 0; i < length; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
 
 class WifiCharacteristic {
 
@@ -24,7 +32,7 @@ class WifiCharacteristic {
         // if ttl > now + 1 min
         if (this.wifiData.ttl < new Date().getTime()){
           console.log("Wifi Data Expired. fetching new data")
-          var newData = ['net1','net2','net3']
+          var newData = [makeid(32),makeid(32),makeid(32)]
           this.wifiData.networks = newData
           // set new ttl
           this.wifiData.ttl = new Date().getTime() + 300000
