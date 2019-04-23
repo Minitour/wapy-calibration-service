@@ -62,7 +62,7 @@ class WifiCharacteristic {
         var val = Buffer.from(res)
         val = val.slice(offset + this.lastKnownOffset);
         console.log(val.toString('utf-8'))
-        console.log(offset)
+        console.log(offset + this.lastKnownOffset)
         callback(this.RESULT_SUCCESS, val);
     }
 
@@ -70,6 +70,7 @@ class WifiCharacteristic {
       // { "offset" : 0 }
       var res = JSON.parse(data.toString())
       this.lastKnownOffset = res.offset;
+      console.log(this.lastKnownOffset)
       callback(this.RESULT_SUCCESS);
     }
 }
