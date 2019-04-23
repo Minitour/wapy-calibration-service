@@ -32,6 +32,8 @@ class InfoCharacteristic {
             'random_id' : makeid(300)
         }
         const res = JSON.stringify(data)
+        console.log(offset)
+        console.log(res)
         callback(this.RESULT_SUCCESS, Buffer.from(res));
     }
 
