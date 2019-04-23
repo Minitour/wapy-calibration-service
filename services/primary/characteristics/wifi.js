@@ -22,13 +22,16 @@ class WifiCharacteristic {
     constructor() {
         WifiCharacteristic.super_.call(this, {
             uuid: process.env['_CHAR_WIFI_ID'],
-            properties: ['read']
+            properties: ['read','write']
         });
         this.wifiData = {
           'ttl' : -1,
           'networks': []
         }
+
+        this.lastKnownOffset = 0;
     }
+    
     async onReadRequest(offset, callback) {
 
       var data = {}
@@ -57,11 +60,17 @@ class WifiCharacteristic {
         // send response
         const res = JSON.stringify(data)
         var val = Buffer.from(res)
-        val = val.slice(offset);
+        val = val.slice(offset + this.lastKnownOffset);
         console.log(val.toString('utf-8'))
-        
         console.log(offset)
         callback(this.RESULT_SUCCESS, val);
+    }
+
+    onWriteRequest(data,offset,withoutResponse,callback) {
+      // { "offset" : 0 }
+      var res = JSON.parse(data.toString())
+      this.lastKnownOffset = res.offset;
+      callback(this.RESULT_SUCCESS);
     }
 }
 
