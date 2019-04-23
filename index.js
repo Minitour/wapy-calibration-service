@@ -15,9 +15,10 @@ process.env['BLENO_DEVICE_NAME'] = ADVERTISMENT_NAME;
 process.env['_SERVICE_ID'] = 'a741315176f54a56b5cf999e1c8491c8';
 process.env['_CHAR_INFO_ID'] = 'd60bc3bc20694eb78c69e2ba01b03553';
 process.env['_CHAR_WIFI_ID'] = '307fd0967cd34a159fa05cfdbca97342';
+
 const bleno = require('bleno')
 
-const InfoService = require('./services/info/service');
+const InfoService = require('./services/primary/service');
 
 var services = [
     new InfoService()
