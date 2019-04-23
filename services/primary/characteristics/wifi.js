@@ -56,7 +56,8 @@ class WifiCharacteristic {
         
         // send response
         const res = JSON.stringify(data)
-        var val = Buffer.from(res).slice(offset, offset + 184)
+        var val = Buffer.from(res)
+        val = val.slice(offset, val.length - offset); // based on apple docs
         console.log(val.toString('utf-8'))
         
         console.log(offset)
