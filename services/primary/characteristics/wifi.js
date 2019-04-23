@@ -30,6 +30,7 @@ class WifiCharacteristic {
         }
 
         this.lastKnownOffset = 0;
+        this.blockSize = 0;
     }
     
     async onReadRequest(offset, callback) {
@@ -60,7 +61,13 @@ class WifiCharacteristic {
         // send response
         const res = JSON.stringify(data)
         var val = Buffer.from(res)
-        val = val.slice(offset + this.lastKnownOffset);
+
+        var range = offset + this.lastKnownOffset;
+        if (range > val.length) {
+          callback(this.RESULT_INVALID_OFFSET, val);
+          return
+        }
+        val = val.slice(range);
         console.log(val.toString('utf-8'))
         console.log(offset + this.lastKnownOffset)
         callback(this.RESULT_SUCCESS, val);
@@ -70,7 +77,8 @@ class WifiCharacteristic {
       // { "offset" : 0 }
       var res = JSON.parse(data.toString())
       this.lastKnownOffset = res.offset;
-      console.log(this.lastKnownOffset)
+      this.blockSize = res.block;
+      console.log(`Last known offset: ${this.lastKnownOffset}`)
       callback(this.RESULT_SUCCESS);
     }
 }
