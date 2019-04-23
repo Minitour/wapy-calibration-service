@@ -4,6 +4,16 @@ const util = require('util');
 const Descriptor = bleno.Descriptor;
 const Characteristic = bleno.Characteristic;
 
+function makeid(length) {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < length; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
 class InfoCharacteristic {
     constructor() {
         InfoCharacteristic.super_.call(this, {
@@ -18,12 +28,11 @@ class InfoCharacteristic {
             'version' : '1.0.0',
             'name' : 'The Box',
             'paired' : false,
-            'step' : 0
+            'step' : 0,
+            'random_id' : makeid(300)
         }
-        console.log(offset);
         const res = JSON.stringify(data)
-        console.log(res)
-        callback(this.RESULT_SUCCESS, new Buffer(res).slice(offset,offset + 22));
+        callback(this.RESULT_SUCCESS, Buffer.from(res));
     }
 
     onWriteRequest(data, offset, withoutResponse, callback) {

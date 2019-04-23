@@ -1,3 +1,5 @@
+const ADVERTISMENT_NAME = 'WAPY BOX';
+process.env['BLENO_DEVICE_NAME'] = ADVERTISMENT_NAME;
 const bleno = require('bleno')
 
 const InfoService = require('./services/info-service/info-service');
@@ -32,6 +34,6 @@ bleno.on('stateChange', state => {
     if (state == 'poweredOn') {
         // start advertising
         console.log('startAdvertising')
-        bleno.startAdvertising('my ad',servicesUuids)
+        bleno.startAdvertising(ADVERTISMENT_NAME, servicesUuids)
     }
 })
