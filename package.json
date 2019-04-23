@@ -20,6 +20,6 @@
   "homepage": "https://github.com/Minitour/wapy-calibration-service#readme",
   "dependencies": {
     "bleno": "^0.5.0",
-    "node-wifi-scanner" : "^1.1.1"
+    "node-wifi" : "^2.0.5"
   }
 }

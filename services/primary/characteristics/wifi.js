@@ -1,16 +1,20 @@
 const bleno = require('bleno');
 const util = require('util');
-const iwlist = require('wireless-tools/iwlist');
 const Characteristic = bleno.Characteristic;
+const wifi = require('node-wifi');
 
-function makeid(length) {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+wifi.init({iface:null})
 
-  for (var i = 0; i < length; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
+function getNetworks(){
+  return new Promise( (res,rej)=>{
+    wifi.scan((err, networks)=> {
+      if (err) {
+        rej(err);
+      }else {
+        res(networks);
+      }
+    })
+  });
 }
 
 class WifiCharacteristic {
@@ -25,15 +29,20 @@ class WifiCharacteristic {
           'networks': []
         }
     }
-    onReadRequest(offset, callback) {
+    async onReadRequest(offset, callback) {
 
       var data = {}
 
         // if ttl > now + 1 min
         if (this.wifiData.ttl < new Date().getTime()){
           console.log("Wifi Data Expired. fetching new data")
-          var newData = [makeid(32),makeid(32),makeid(32)]
-          this.wifiData.networks = newData
+          try {
+            this.wifiData.networks =  await getNetworks();
+          } catch(error) {
+            console.log(error)
+            this.wifiData.networks = []
+          }
+          
           // set new ttl
           this.wifiData.ttl = new Date().getTime() + 300000
         }
