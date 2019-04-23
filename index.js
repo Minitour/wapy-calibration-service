@@ -20,6 +20,7 @@ const iwlist = require('wireless-tools/iwlist');
 console.log('start')
 iwlist.scan('wlan0', function(err, networks) {
     console.log(networks);
+    console.log(err);
 });
 console.log('end')
 
