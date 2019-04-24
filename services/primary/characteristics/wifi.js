@@ -64,7 +64,8 @@ class WifiCharacteristic {
 
         var range = offset + this.lastKnownOffset;
         if (range > val.length) {
-          callback(this.RESULT_INVALID_OFFSET, val);
+          console.log("OUT OF BOUNDS")
+          callback(this.RESULT_INVALID_OFFSET, 0);
           return
         }
         val = val.slice(range);
