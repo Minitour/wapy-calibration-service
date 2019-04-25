@@ -15,6 +15,7 @@ class TokenCharacteristic {
     onWriteRequest(data, offset, withoutResponse, callback) {
         console.log(offset)
         const res = JSON.parse(data.toString());
+        console.log(res)
         sharedInstance.token = res.token;
         callback(this.RESULT_SUCCESS);
       }
