@@ -2,8 +2,12 @@ const util = require('util');
 const bleno = require('bleno');
 const InfoCharacteristic = require('./characteristics/info');
 const WifiCharacteristic = require('./characteristics/wifi')
+const sharedInstance = require('../shared-instance')
+
+console.log(sharedInstance);
 
 const BlenoPrimaryService = bleno.PrimaryService;
+
 
 function PrimaryService() {
     PrimaryService.super_.call(this, {

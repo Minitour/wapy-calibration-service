@@ -16,8 +16,11 @@ process.env['_SERVICE_ID'] = 'a741315176f54a56b5cf999e1c8491c8';
 process.env['_CHAR_INFO_ID'] = 'd60bc3bc20694eb78c69e2ba01b03553';
 process.env['_CHAR_WIFI_ID'] = '307fd0967cd34a159fa05cfdbca97342';
 
+const sharedInstance = require('./services/shared-instance');
+sharedInstance.data = 'hello world';
 
 const bleno = require('bleno')
+
 
 const PrimaryService = require('./services/primary/service');
 
