@@ -20,5 +20,5 @@ class TokenCharacteristic {
       }
 }
 
-util.inherits(WriteOffsetCharacteristic, Characteristic);
-module.exports = WriteOffsetCharacteristic;
+util.inherits(TokenCharacteristic, Characteristic);
+module.exports = TokenCharacteristic;
