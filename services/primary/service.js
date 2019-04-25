@@ -5,6 +5,7 @@ const WifiCharacteristic = require('./characteristics/wifi');
 const ReadOffsetCharacteristic = require('./characteristics/read-offset');
 const WriteOffsetCharacteristic = require('./characteristics/write-offset');
 const TokenCharacteristic = require('./characteristics/token');
+const SSIDCharacteristic = require('./characteristics/bssid');
 const sharedInstance = require('../shared-instance');
 const BlenoPrimaryService = bleno.PrimaryService;
 
@@ -16,7 +17,8 @@ function PrimaryService() {
             new WifiCharacteristic(),
             new ReadOffsetCharacteristic(),
             new WriteOffsetCharacteristic(),
-            new TokenCharacteristic()
+            new TokenCharacteristic(),
+            new SSIDCharacteristic()
         ]
     });
 }
