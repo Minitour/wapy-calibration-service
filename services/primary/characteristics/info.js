@@ -8,7 +8,7 @@ class InfoCharacteristic {
     constructor() {
         InfoCharacteristic.super_.call(this, {
             uuid: process.env['_CHAR_INFO_ID'],
-            properties: ['read','write','notify']
+            properties: ['read']
         });
     }
     onReadRequest(offset, callback) {
@@ -20,37 +20,22 @@ class InfoCharacteristic {
             'paired' : false,
             'step' : 0
         }
-        const res = JSON.stringify(data)
-        console.log(offset)
-        console.log(res)
-        callback(this.RESULT_SUCCESS, Buffer.from(res).slice(offset, offset + 184));
-    }
 
-    onWriteRequest(data, offset, withoutResponse, callback) {
-        this._value = data;
-      
-        console.log('EchoCharacteristic - onWriteRequest: value = ' + this._value.toString('hex'));
-      
-        if (this._updateValueCallback) {
-          console.log('EchoCharacteristic - onWriteRequest: notifying');
-      
-          this._updateValueCallback(this._value);
+        const res = JSON.stringify(data);
+        var val = Buffer.from(res);
+        var range = offset + sharedInstance.offset.read;
+        
+        if (range > val.length) {
+          console.log("OUT OF BOUNDS")
+          callback(this.RESULT_INVALID_OFFSET, 0);
+          return
         }
-      
-        callback(this.RESULT_SUCCESS);
-      }
 
-      onSubscribe(maxValueSize, updateValueCallback) {
-        console.log('EchoCharacteristic - onSubscribe');
-      
-        this._updateValueCallback = updateValueCallback;
-      }
-      
-      onUnsubscribe() {
-        console.log('EchoCharacteristic - onUnsubscribe');
-      
-        this._updateValueCallback = null;
-      }
+        val = val.slice(range);
+        console.log(val.toString('utf-8'))
+        console.log(offset + sharedInstance.offset.read);
+        callback(this.RESULT_SUCCESS, val);
+    }
 }
 
 util.inherits(InfoCharacteristic, Characteristic);
