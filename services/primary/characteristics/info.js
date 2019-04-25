@@ -1,6 +1,7 @@
 //read only
 const bleno = require('bleno');
 const util = require('util');
+const sharedInstance = require('../../shared-instance');
 
 const Characteristic = bleno.Characteristic;
 
