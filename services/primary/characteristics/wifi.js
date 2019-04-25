@@ -1,7 +1,10 @@
+// read only
 const bleno = require('bleno');
 const util = require('util');
-const Characteristic = bleno.Characteristic;
 const wifi = require('node-wifi');
+const sharedInstance = require('../../shared-instance');
+const Characteristic = bleno.Characteristic;
+
 
 wifi.init({iface:null})
 
@@ -22,15 +25,12 @@ class WifiCharacteristic {
     constructor() {
         WifiCharacteristic.super_.call(this, {
             uuid: process.env['_CHAR_WIFI_ID'],
-            properties: ['read','write']
+            properties: ['read']
         });
         this.wifiData = {
           'ttl' : -1,
           'networks': []
         }
-
-        this.lastKnownOffset = 0;
-        this.blockSize = 0;
     }
     
     async onReadRequest(offset, callback) {
@@ -62,18 +62,20 @@ class WifiCharacteristic {
         const res = JSON.stringify(data)
         var val = Buffer.from(res)
 
-        var range = offset + this.lastKnownOffset;
+        var range = offset + sharedInstance.offset.read;
         if (range > val.length) {
           console.log("OUT OF BOUNDS")
           callback(this.RESULT_INVALID_OFFSET, 0);
           return
         }
+
         val = val.slice(range);
         console.log(val.toString('utf-8'))
-        console.log(offset + this.lastKnownOffset)
+        console.log(offset + sharedInstance.offset.read);
         callback(this.RESULT_SUCCESS, val);
     }
 
+    /*
     onWriteRequest(data,offset,withoutResponse,callback) {
       // { "offset" : 0 }
       var res = JSON.parse(data.toString())
@@ -82,6 +84,7 @@ class WifiCharacteristic {
       console.log(`Last known offset: ${this.lastKnownOffset}`)
       callback(this.RESULT_SUCCESS);
     }
+    */
 }
 
 util.inherits(WifiCharacteristic, Characteristic);

@@ -1,3 +1,4 @@
+//read only
 const bleno = require('bleno');
 const util = require('util');
 
