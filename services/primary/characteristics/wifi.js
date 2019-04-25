@@ -37,9 +37,17 @@ class WifiCharacteristic {
 
       var data = {}
 
-        // if ttl > now + 1 min
         if (this.wifiData.ttl < new Date().getTime()){
           console.log("Wifi Data Expired. fetching new data")
+          
+          // disconnect if needed
+          try {
+            await wifi.disconnect();
+          } catch (error) {
+            console.log(err);
+          }
+
+          // scan networks
           try {
             this.wifiData.networks =  await getNetworks();
           } catch(error) {
@@ -48,7 +56,7 @@ class WifiCharacteristic {
           }
           
           // set new ttl
-          this.wifiData.ttl = new Date().getTime() + 300000
+          this.wifiData.ttl = new Date().getTime() + 3000
         }
 
         data.networks = this.wifiData.networks
