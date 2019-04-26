@@ -20,13 +20,19 @@ process.env['_CHAR_READ_ID'] = '0aadbf253f94452d82c9ce3f045ee51f';
 process.env['_CHAR_TOKEN_ID'] = 'a33c9d54e26e42e8ad99b58293e4249a';
 process.env['_CHAR_BSSID_ID'] = '62221e9cfea145de865c8d718dd6a98f';
 
-const sharedInstance = require('./services/shared-instance');
-sharedInstance.data = 'hello world';
 
 const bleno = require('bleno')
-
-
 const PrimaryService = require('./services/primary/service');
+
+var app = firebase.initializeApp({
+    apiKey: '<your-api-key>',
+    authDomain: '<your-auth-domain>',
+    databaseURL: '<your-database-url>',
+    projectId: '<your-cloud-firestore-project>',
+    storageBucket: '<your-storage-bucket>',
+    messagingSenderId: '<your-sender-id>'
+});
+
 
 var services = [
     new PrimaryService()

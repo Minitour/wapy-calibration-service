@@ -82,17 +82,6 @@ class WifiCharacteristic {
         console.log(offset + sharedInstance.offset.read);
         callback(this.RESULT_SUCCESS, val);
     }
-
-    /*
-    onWriteRequest(data,offset,withoutResponse,callback) {
-      // { "offset" : 0 }
-      var res = JSON.parse(data.toString())
-      this.lastKnownOffset = res.offset;
-      this.blockSize = res.block;
-      console.log(`Last known offset: ${this.lastKnownOffset}`)
-      callback(this.RESULT_SUCCESS);
-    }
-    */
 }
 
 util.inherits(WifiCharacteristic, Characteristic);
