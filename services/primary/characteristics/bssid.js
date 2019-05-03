@@ -3,6 +3,7 @@
 const bleno = require('bleno');
 const util = require('util');
 const wifi = require('node-wifi');
+const firebase = require('firebase');
 const sharedInstance = require('../../shared-instance');
 
 const Characteristic = bleno.Characteristic;
@@ -62,7 +63,14 @@ class SSIDCharacteristic {
         const config = { 'ssid': ssid, 'password' : res.password }
 
         try {
+
+            console.log(`Connecting to network with SSID: ${ssid}`);
             await connectToNetwork(config);
+
+            // login with firebase token.
+            console.log('Logging in to firebase...');
+            await firebase.auth().signInWithCustomToken(sharedInstance.token);
+            
             callback(this.RESULT_SUCCESS);
         }catch (e){
             callback(this.RESULT_UNLIKELY_ERROR)
