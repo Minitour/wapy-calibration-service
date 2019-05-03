@@ -24,7 +24,7 @@ process.env['_CHAR_CAMERA_ID'] = '3367142e91d445128ac6e64bb57ae9c8';
 
 const bleno = require('bleno')
 const PrimaryService = require('./services/primary/service');
-
+const App = require('./services/firebase-application');
 var services = [
     new PrimaryService()
 ]
