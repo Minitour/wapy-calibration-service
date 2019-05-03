@@ -4,10 +4,10 @@ const bleno = require('bleno');
 const util = require('util');
 const sharedInstance = require('../../shared-instance');
 const notifyService = require('../../service-notifier');
-const firebase = require("firebase");
+const App = require('../../firebase-application');
 require("firebase/functions");
-const functions = firebase.functions();
-const getCamera = firebase.functions().httpsCallable('getCamera');
+const functions = App.functions();
+const getCamera = functions.httpsCallable('getCamera');
 
 const Characteristic = bleno.Characteristic;
 
