@@ -73,6 +73,7 @@ class SSIDCharacteristic {
             
             callback(this.RESULT_SUCCESS);
         }catch (e){
+            console.log(e);
             callback(this.RESULT_UNLIKELY_ERROR)
         }
       }

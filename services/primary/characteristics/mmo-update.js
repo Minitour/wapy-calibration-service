@@ -7,7 +7,6 @@ const Characteristic = bleno.Characteristic;
 const firebase = require("firebase");
 require("firebase/functions");
 const functions = firebase.functions();
-
 const GetCamera = firebase.functions().httpsCallable('getCamera');
 
 class MMOUpdateCharacteristic {
