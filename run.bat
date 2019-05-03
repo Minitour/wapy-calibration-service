@@ -1,4 +1,4 @@
 ECHO OFF
-git pull
+git pull --hard
 node index.js
 PAUSE
