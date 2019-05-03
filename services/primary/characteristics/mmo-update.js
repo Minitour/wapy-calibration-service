@@ -1,13 +1,13 @@
 //read only
 const bleno = require('bleno');
 const util = require('util');
+const notifyService = require('../../service-notifier');
 const sharedInstance = require('../../shared-instance');
-
 const Characteristic = bleno.Characteristic;
 const firebase = require("firebase");
 require("firebase/functions");
 const functions = firebase.functions();
-const GetCamera = firebase.functions().httpsCallable('getCamera');
+const getCamera = firebase.functions().httpsCallable('getCamera');
 
 class MMOUpdateCharacteristic {
     constructor() {
@@ -21,9 +21,17 @@ class MMOUpdateCharacteristic {
         const res = '{}'
         var val = Buffer.from(res)
 
-        // TODO: make API request to firebase.
+        // make API request to firebase.
         
+        try {
+            const data = await getCamera({ cameraId: sharedInstance.camera_id });
+            console.log(data);
+            sharedInstance.cloudObject = data;
+            await notifyService();
 
+        }catch (e) {
+            console.log(e);
+        }
         callback(this.RESULT_SUCCESS, val)
     }
 }
