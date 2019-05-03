@@ -1,4 +1,5 @@
 ECHO OFF
-git pull --hard
+git fetch --all
+git reset --hard origin/master
 node index.js
 PAUSE
