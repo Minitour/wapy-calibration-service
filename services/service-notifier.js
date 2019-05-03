@@ -13,14 +13,11 @@ const writeFilePromise = (file, data) => {
 
 module.exports = async function() {
     const cloudObject = sharedInstance.cloudObject;
-    
-    
+
     console.log(JSON.stringify(cloudObject))
 
-    await writeFilePromise('camera.json', JSON.stringify(cloudObject));
-
     // write that to disk
-    await writeFilePromise('mmo.json', JSON.stringify(cloudObject.mmo));
+    await writeFilePromise('%APPDATA%/wapy/camera.json', JSON.stringify(cloudObject));
 
     // call service manager to restart the service
     await fetch('http://localhost:8001/camera/2', { method: 'POST'});
