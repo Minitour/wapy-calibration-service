@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
-const sharedInstance = require('./shared-instance');
+const sharedInstance = require('../services/shared-instance');
 
 const writeFilePromise = (file, data) => {
     return new Promise((resolve, reject) => {
@@ -14,7 +14,8 @@ const writeFilePromise = (file, data) => {
 module.exports = async function() {
     const cloudObject = sharedInstance.cloudObject;
     
-    console.log(cloudObject.mmo)
+    
+    console.log(JSON.stringify(cloudObject))
 
     await writeFilePromise('camera.json', JSON.stringify(cloudObject));
 
