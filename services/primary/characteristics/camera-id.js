@@ -17,6 +17,15 @@ class CameraIDCharacteristic {
         const res = JSON.parse(data.toString());
 
         sharedInstance.camera_id = res.camera_id; 
+        try {
+            const data = await getCamera({ cameraId: sharedInstance.camera_id });
+            console.log(data);
+            sharedInstance.cloudObject = data;
+            await notifyService();
+
+        }catch (e) {
+            console.log(e);
+        }
 
         callback(this.RESULT_SUCCESS);
     }
