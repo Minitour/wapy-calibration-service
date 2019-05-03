@@ -18,7 +18,7 @@ class CameraIDCharacteristic {
             properties: ['write']
         });
     }
-    onWriteRequest(data, offset, withoutResponse, callback) {
+    async onWriteRequest(data, offset, withoutResponse, callback) {
         const res = JSON.parse(data.toString());
 
         sharedInstance.camera_id = res.camera_id; 
