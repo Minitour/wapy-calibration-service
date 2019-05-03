@@ -8,7 +8,12 @@ const sharedInstance = require('../../shared-instance');
 
 const Characteristic = bleno.Characteristic;
 
+
 wifi.init({iface:null})
+
+async function sleep(millis) {
+  return new Promise(resolve => setTimeout(resolve, millis));
+}
 
 function getNetworkSSIDFrom(bssid){
   return new Promise( (res,rej)=>{
@@ -66,6 +71,10 @@ class SSIDCharacteristic {
 
             console.log(`Connecting to network with SSID: ${ssid}`);
             await connectToNetwork(config);
+
+            // wait 3 seconds to ensure the connection worked.
+            // TODO: replace with while?
+            await sleep(3000);
 
             // login with firebase token.
             console.log('Logging in to firebase...');
