@@ -1,9 +1,28 @@
 //read only
 const bleno = require('bleno');
 const util = require('util');
+const wifi = require('node-wifi');
 const sharedInstance = require('../../shared-instance');
-
 const Characteristic = bleno.Characteristic;
+
+function getCurrentWifi() {
+    return new Promise((res,rej)=> {
+        wifi.getCurrentConnections(function(err, currentConnections) {
+            if (err) {
+                console.log(err);
+                rej(err);
+                return;
+            }
+
+            if (currentConnections.length == 0) {
+                rej(undefined);
+                return;
+            }
+
+            res(currentConnections[0]);
+        });
+    });
+}
 
 class InfoCharacteristic {
     constructor() {
@@ -12,14 +31,25 @@ class InfoCharacteristic {
             properties: ['read']
         });
     }
-    onReadRequest(offset, callback) {
+    async onReadRequest(offset, callback) {
         // TODO: create data object from real data.
         // The payload to send. This data should be read from a singleton.
+
+        const cloudObject = sharedInstance.cloudObject;
+        const isCalibrated = !(cloudObject == undefined);        
+        var currentWifi = undefined;
+
+        try {
+            currentWifi = await getCurrentWifi();
+        }catch { 
+            console.log('Not connected yet.');
+        }
+
         const data = {
-            'version' : '1.0.0',
-            'name' : 'The Box',
-            'paired' : false,
-            'step' : 0
+            'version' : cloudObject.version,
+            'name' : cloudObject.name,
+            'calibrated' : isCalibrated,
+            'network': currentWifi.ssid
         }
 
         const res = JSON.stringify(data);
@@ -34,7 +64,6 @@ class InfoCharacteristic {
 
         val = val.slice(range);
         console.log(val.toString('utf-8'))
-        console.log(offset + sharedInstance.offset.read);
         callback(this.RESULT_SUCCESS, val);
     }
 }

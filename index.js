@@ -7,7 +7,7 @@ d60bc3bc20694eb78c69e2ba01b03553 // info char
 a33c9d54e26e42e8ad99b58293e4249a // token
 62221e9cfea145de865c8d718dd6a98f // ssid
 3367142e91d445128ac6e64bb57ae9c8 // camera id
-336165350c8f4ef9b3588893fb87c859
+336165350c8f4ef9b3588893fb87c859 // request update
 d2223a9f75c343ada4da20254e460c72
  */
 const ADVERTISMENT_NAME = 'WAPY BOX';
@@ -20,18 +20,23 @@ process.env['_CHAR_READ_ID'] = '0aadbf253f94452d82c9ce3f045ee51f';
 process.env['_CHAR_TOKEN_ID'] = 'a33c9d54e26e42e8ad99b58293e4249a';
 process.env['_CHAR_BSSID_ID'] = '62221e9cfea145de865c8d718dd6a98f';
 process.env['_CHAR_CAMERA_ID'] = '3367142e91d445128ac6e64bb57ae9c8';
+process.env['_CHAR_RQ_UPDATE_ID'] = '336165350c8f4ef9b3588893fb87c859';
 
 
 const bleno = require('bleno')
 const PrimaryService = require('./services/primary/service');
 const App = require('./services/firebase-application');
+const fs = require('fs');
+const homedir = require('os').homedir();
+const sharedInstance = require('./services/shared-instance');
+
 console.log(App.name);
 
 var services = [
     new PrimaryService()
 ]
 
-var servicesUuids = services.map( service => service.uuid);
+var servicesUuids = services.map(service => service.uuid);
 
 console.log(servicesUuids)
 
@@ -44,7 +49,7 @@ bleno.on('advertisingStart', err => {
     })
 })
 
-bleno.on('advertisingStartError',err => {
+bleno.on('advertisingStartError', err => {
     if (err) {
         console.log(`[advertisingStartError] ${err}`)
     }
@@ -60,3 +65,17 @@ bleno.on('stateChange', state => {
         bleno.startAdvertising(ADVERTISMENT_NAME, servicesUuids)
     }
 })
+
+fs.readFile(`${homedir}/wapy/camera.json`, (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    
+    try {
+        const cloudObject = JSON.parse(data);
+        sharedInstance.cloudObject = cloudObject;
+    } catch (e) {
+        console.error(e);
+    }
+});

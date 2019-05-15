@@ -7,6 +7,7 @@ const WriteOffsetCharacteristic = require('./characteristics/write-offset');
 const TokenCharacteristic = require('./characteristics/token');
 const SSIDCharacteristic = require('./characteristics/bssid');
 const CameraIDCharacteristic = require('./characteristics/camera-id');
+const RequestUpdateCharacteristic = require('./characteristics/request-update');
 const sharedInstance = require('../shared-instance');
 const BlenoPrimaryService = bleno.PrimaryService;
 
@@ -20,7 +21,8 @@ function PrimaryService() {
             new WriteOffsetCharacteristic(),
             new TokenCharacteristic(),
             new SSIDCharacteristic(),
-            new CameraIDCharacteristic()
+            new CameraIDCharacteristic(),
+            new RequestUpdateCharacteristic()
         ]
     });
 }
