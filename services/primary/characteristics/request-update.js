@@ -32,6 +32,12 @@ class RequestUpdateCharacteristic {
             return;
         }
 
+        if (sharedInstance.cloudObject == undefined) {
+            console.log('Cloud Object is not defined.');
+            callback(this.RESULT_UNLIKELY_ERROR);
+            return;
+        }
+
         // if cloudObject secret is undefined
         if (sharedInstance.cloudObject.secret == undefined) {
             console.log('Cloud Object Secret is not defined.');

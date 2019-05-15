@@ -37,19 +37,27 @@ class InfoCharacteristic {
 
         const cloudObject = sharedInstance.cloudObject;
         const isCalibrated = !(cloudObject == undefined);        
-        var currentWifi = undefined;
+        var version = undefined;
+        var ssid = undefined;
+        var name = undefined;
+        
+        if (isCalibrated) {
+            name = cloudObject.name;
+            version = cloudObject.version;
+        }
 
         try {
-            currentWifi = await getCurrentWifi();
+            const currentWifi = await getCurrentWifi();
+            ssid = currentWifi.ssid;
         }catch { 
             console.log('Not connected yet.');
         }
 
         const data = {
-            'version' : cloudObject.version,
-            'name' : cloudObject.name,
+            'version' : version,
+            'name' : name,
             'calibrated' : isCalibrated,
-            'network': currentWifi.ssid
+            'network': ssid
         }
 
         const res = JSON.stringify(data);
