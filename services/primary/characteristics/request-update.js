@@ -50,7 +50,7 @@ class RequestUpdateCharacteristic {
             console.log('Secret Mismatch.');
             callback(this.RESULT_UNLIKELY_ERROR);
             return;
-        } 
+        }
 
         // get camera and callback success
         const cameraId = sharedInstance.cloudObject.id;

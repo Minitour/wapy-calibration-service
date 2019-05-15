@@ -22,14 +22,14 @@ class MMOUpdateCharacteristic {
         var val = Buffer.from(res)
 
         // make API request to firebase.
-        
+
         try {
             const data = await getCamera({ cameraId: sharedInstance.camera_id });
             console.log(data);
             sharedInstance.cloudObject = data;
             await notifyService();
 
-        }catch (e) {
+        } catch (e) {
             console.log(e);
         }
         callback(this.RESULT_SUCCESS, val)

@@ -21,14 +21,20 @@ class CameraIDCharacteristic {
     async onWriteRequest(data, offset, withoutResponse, callback) {
         const res = JSON.parse(data.toString());
 
-        sharedInstance.camera_id = res.camera_id; 
+        if (sharedInstance.isCalibrated()){
+            console.log("Camera already set, use Request Update");
+            callback(this.RESULT_UNLIKELY_ERROR);
+            return;
+        }
+
+        sharedInstance.camera_id = res.camera_id;
         try {
             const result = await getCamera({ cameraId: sharedInstance.camera_id });
             console.log(JSON.stringify(data));
             sharedInstance.cloudObject = result.data.data;
             await notifyService();
 
-        }catch (e) {
+        } catch (e) {
             console.log(e);
         }
 

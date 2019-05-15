@@ -16,7 +16,7 @@ class ReadOffsetCharacteristic {
         const res = JSON.parse(data.toString());
         sharedInstance.offset.read = res.offset;
         callback(this.RESULT_SUCCESS);
-      }
+    }
 }
 
 util.inherits(ReadOffsetCharacteristic, Characteristic);

@@ -16,7 +16,7 @@ class WriteOffsetCharacteristic {
         const res = JSON.parse(data.toString());
         sharedInstance.offset.write = res.offset;
         callback(this.RESULT_SUCCESS);
-      }
+    }
 }
 
 util.inherits(WriteOffsetCharacteristic, Characteristic);

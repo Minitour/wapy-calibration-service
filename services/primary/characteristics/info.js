@@ -2,6 +2,7 @@
 const bleno = require('bleno');
 const util = require('util');
 const wifi = require('node-wifi');
+const firebase = require('firebase');
 const sharedInstance = require('../../shared-instance');
 const Characteristic = bleno.Characteristic;
 
@@ -40,6 +41,7 @@ class InfoCharacteristic {
         var version = undefined;
         var ssid = undefined;
         var name = undefined;
+        const isAuthenticated = firebase.auth().currentUser != undefined;
         
         if (isCalibrated) {
             name = cloudObject.name;
@@ -53,11 +55,13 @@ class InfoCharacteristic {
             console.log('Not connected yet.');
         }
 
+        
         const data = {
             'version' : version,
             'name' : name,
             'calibrated' : isCalibrated,
-            'network': ssid
+            'network': ssid,
+            'authenticated': isAuthenticated
         }
 
         const res = JSON.stringify(data);

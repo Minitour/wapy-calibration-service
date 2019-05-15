@@ -18,7 +18,7 @@ class TokenCharacteristic {
         console.log(res)
         sharedInstance.token = res.token;
         callback(this.RESULT_SUCCESS);
-      }
+    }
 }
 
 util.inherits(TokenCharacteristic, Characteristic);
