@@ -41,11 +41,13 @@ class InfoCharacteristic {
         var version = undefined;
         var ssid = undefined;
         var name = undefined;
+        var id = undefined;
         const isAuthenticated = firebase.auth().currentUser != undefined;
         
         if (isCalibrated) {
             name = cloudObject.name;
             version = cloudObject.version;
+            id = cloudObject.id;
         }
 
         try {
@@ -61,7 +63,8 @@ class InfoCharacteristic {
             'name' : name,
             'calibrated' : isCalibrated,
             'network': ssid,
-            'authenticated': isAuthenticated
+            'authenticated': isAuthenticated,
+            'id' : id
         }
 
         const res = JSON.stringify(data);
