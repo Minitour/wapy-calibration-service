@@ -35,7 +35,7 @@ class InfoCharacteristic {
     async onReadRequest(offset, callback) {
         // TODO: create data object from real data.
         // The payload to send. This data should be read from a singleton.
-
+        console.log("received read info request");
         const cloudObject = sharedInstance.cloudObject;
         const isCalibrated = !(cloudObject == undefined);        
         var version = undefined;
