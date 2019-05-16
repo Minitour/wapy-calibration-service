@@ -86,8 +86,10 @@ class SSIDCharacteristic {
       await sleep(3000);
 
       // login with firebase token.
-      console.log('Logging in to firebase...');
-      if (sharedInstance.token && firebase.auth().currentUser != undefined) {
+      
+      console.log(sharedInstance)
+      if (sharedInstance.token && firebase.auth().currentUser == undefined) {
+        console.log('Logging in to firebase...');
         await firebase.auth().signInWithCustomToken(sharedInstance.token);
       }
 
