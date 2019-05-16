@@ -84,7 +84,8 @@ class SSIDCharacteristic {
       await connectToNetwork(config);
 
       // ping google
-      var isAlive = await ping.promise.probe('google.com');
+      const res = await ping.promise.probe('google.com');
+      const isAlive = res.alive;
       console.log(`Is connection alive: ${isAlive}`);
       if (!isAlive) {
         callback(this.RESULT_UNLIKELY_ERROR);
