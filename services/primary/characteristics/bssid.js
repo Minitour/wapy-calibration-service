@@ -46,6 +46,7 @@ function connectToNetwork(config) {
     wifi.connect(config, (err) => {
       if (err) {
         rej(undefined);
+        return;
       }
       res(true);
     }
@@ -89,7 +90,7 @@ class SSIDCharacteristic {
       if (sharedInstance.token && firebase.auth().currentUser != undefined) {
         await firebase.auth().signInWithCustomToken(sharedInstance.token);
       }
-      
+
       callback(this.RESULT_SUCCESS);
     } catch (e) {
       console.log(e);
