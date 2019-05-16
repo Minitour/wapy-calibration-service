@@ -83,6 +83,10 @@ class SSIDCharacteristic {
       console.log(`Connecting to network with SSID: ${ssid}`);
       await connectToNetwork(config);
 
+      // wait 3 seconds to ensure the connection worked.
+      // TODO: replace with while?
+      await sleep(3000);
+
       // ping google
       const res = await ping.promise.probe('google.com');
       const isAlive = res.alive;
@@ -92,9 +96,7 @@ class SSIDCharacteristic {
         return;
       }
 
-      // wait 3 seconds to ensure the connection worked.
-      // TODO: replace with while?
-      await sleep(3000);
+      
 
       // login with firebase token.
       
