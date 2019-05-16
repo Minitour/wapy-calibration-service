@@ -44,8 +44,9 @@ function getNetworkSSIDFrom(bssid) {
 function connectToNetwork(config) {
   return new Promise((res, rej) => {
     wifi.connect(config, (err) => {
+      console.log(err);
       if (err) {
-        rej(undefined);
+        rej(err);
         return;
       }
       res(true);
