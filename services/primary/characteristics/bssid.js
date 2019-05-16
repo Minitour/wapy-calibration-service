@@ -4,6 +4,7 @@ const bleno = require('bleno');
 const util = require('util');
 const wifi = require('node-wifi');
 const firebase = require('firebase');
+const ping = require('ping');
 const sharedInstance = require('../../shared-instance');
 
 const Characteristic = bleno.Characteristic;
@@ -81,6 +82,13 @@ class SSIDCharacteristic {
 
       console.log(`Connecting to network with SSID: ${ssid}`);
       await connectToNetwork(config);
+
+      // ping google
+      var isAlive = await ping.promise.probe('8.8.8.8');
+      if (!isAlive) {
+        callback(this.RESULT_UNLIKELY_ERROR);
+        return;
+      }
 
       // wait 3 seconds to ensure the connection worked.
       // TODO: replace with while?
