@@ -4,6 +4,7 @@ const db = App.firestore();
 
 var cancelSubscription = undefined;
 var knownDocument = undefined;
+var cameraState = undefined;
 
 async function startObserving(cameraId) {
     // cancel subscription before creating a new one.
@@ -16,7 +17,7 @@ async function startObserving(cameraId) {
 
     console.log(`Creating Reference to camera ${cameraId}`);
     const doc = db.collection('cameras').doc(cameraId);
-    
+
     console.log("Creating Subscription");
     cancelSubscription = doc.onSnapshot(documentSnapshot => {
         if (documentSnapshot.exists) {
@@ -48,20 +49,23 @@ async function updateRecrod(doc) {
     console.log("updateRecrod:");
     console.log(data);
 
-    try {
-        if (cameraEnabled) {
-            // turn on camera
-            console.log("updateRecrod: Turning camera service on.");
-            await fetch('http://localhost:8001/camera/1', { method: 'POST' });
-        } else {
-            // turn camera off
-            console.log("updateRecrod: Shutting down camera service.");
-            await fetch('http://localhost:8001/camera/0', { method: 'POST' });
+    // as long as the state is different from the last known state.
+    if (cameraState != cameraEnabled) {
+        try {
+            if (cameraEnabled) {
+                // turn on camera
+                console.log("updateRecrod: Turning camera service on.");
+                await fetch('http://localhost:8001/camera/1', { method: 'POST' });
+            } else {
+                // turn camera off
+                console.log("updateRecrod: Shutting down camera service.");
+                await fetch('http://localhost:8001/camera/0', { method: 'POST' });
+            }
+        } catch (e) {
+            console.log(e);
         }
-    } catch (e) {
-        console.log(e);
     }
-
+    cameraState = cameraEnabled;
     knownDocument = doc;
     // update record
     // console.log("Updating document.")
