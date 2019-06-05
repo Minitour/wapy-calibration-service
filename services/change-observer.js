@@ -89,8 +89,8 @@ async function updateRecrod(doc) {
     }
 
     knownDocument = await doc.ref.get();
-    
-    sleep(3000);
+
+    await sleep(3000);
 
     // start observing
     startObserving(doc.id);
