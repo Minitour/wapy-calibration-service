@@ -13,11 +13,13 @@ async function startObserving(cameraId) {
         return
     }
 
+    console.log(`Creating Reference to camera ${cameraId}`);
     const doc = db.collection('cameras').doc(cameraId);
-
+    
+    console.log("Creating Subscription");
     cancelSubscription = doc.onSnapshot(documentSnapshot => {
         if (documentSnapshot.exists) {
-            updateRecrod(documentSnapshot);
+            updateRecrod(doc,documentSnapshot);
         }
     }, err => {
         console.log(`Encountered error: ${err}`);
@@ -26,11 +28,12 @@ async function startObserving(cameraId) {
 
 async function stopObserving() {
     if (cancelSubscription) {
+        console.log("Canceling Existing Subscription");
         cancelSubscription();
     }
 }
 
-async function updateRecrod(doc) {
+async function updateRecrod(docRef, doc) {
     // cancel subscription in order to not affect updates.
     stopObserving();
 
@@ -39,16 +42,31 @@ async function updateRecrod(doc) {
 
     const cameraEnabled = data.camera_enabled;
 
-    if (cameraEnabled) {
-        // turn on camera
-        await fetch('http://localhost:8001/camera/1', { method: 'POST' });
-    } else {
-        // turn camera off
-        await fetch('http://localhost:8001/camera/0', { method: 'POST' });
+    console.log("updateRecrod:");
+    console.log(data);
+
+    try {
+        if (cameraEnabled) {
+            // turn on camera
+            console.log("updateRecrod: Turning camera service on.");
+            await fetch('http://localhost:8001/camera/1', { method: 'POST' });
+        } else {
+            // turn camera off
+            console.log("updateRecrod: Shutting down camera service.");
+            await fetch('http://localhost:8001/camera/0', { method: 'POST' });
+        }
+    } catch (e) {
+        console.log(e);
     }
 
+
     // update record
-    await doc.update({ last_updated: new Date().getTime() });
+    console.log("Updating document.")
+    try {
+        await docRef.update({ last_updated: new Date().getTime() });
+    }catch(e) {
+        console.log(e);
+    }
 
     // start observing
     startObserving(doc.id);
