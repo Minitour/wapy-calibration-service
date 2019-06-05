@@ -21,9 +21,18 @@ async function startObserving(cameraId) {
     console.log("Creating Subscription");
     cancelSubscription = doc.onSnapshot(documentSnapshot => {
         if (documentSnapshot.exists) {
-            if (knownDocument == undefined || !documentSnapshot.isEqual(knownDocument)) {
+
+            if (knownDocument == undefined) {
+                console.log('knownDocument is undefined')
+                updateRecrod(documentSnapshot);
+                return
+            }
+
+            if (!documentSnapshot.isEqual(knownDocument)) {
+                console.log('knownDocument is not equal to documentSnapshot')
                 updateRecrod(documentSnapshot);
             }
+
         }
     }, err => {
         console.log(`Encountered error: ${err}`);
@@ -68,8 +77,8 @@ async function updateRecrod(doc) {
 
     // update the document (notify ping)
     try {
-         await doc.ref.update({ last_ping: new Date().getTime() });
-         knownDocument = await doc.ref.get();
+        await doc.ref.update({ last_ping: new Date().getTime() });
+        knownDocument = await doc.ref.get();
     } catch (e) {
         console.log('Failed to update.');
     }
