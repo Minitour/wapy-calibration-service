@@ -68,7 +68,8 @@ async function updateRecrod(doc) {
 
     // update the document (notify ping)
     try {
-        knownDocument = await doc.ref.update({ last_ping: new Date().getTime() });
+         await doc.ref.update({ last_ping: new Date().getTime() });
+         knownDocument = await doc.ref.get();
     } catch (e) {
         console.log('Failed to update.');
     }
