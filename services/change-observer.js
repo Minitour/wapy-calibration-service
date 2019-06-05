@@ -3,6 +3,7 @@ const App = require('./firebase-application');
 const db = App.firestore();
 
 var cancelSubscription = undefined;
+var knownDocument = undefined;
 
 async function startObserving(cameraId) {
     // cancel subscription before creating a new one.
@@ -18,8 +19,8 @@ async function startObserving(cameraId) {
     
     console.log("Creating Subscription");
     cancelSubscription = doc.onSnapshot(documentSnapshot => {
-        if (documentSnapshot.exists) {
-            updateRecrod(doc,documentSnapshot);
+        if (documentSnapshot.exists && !documentSnapshot.isEqual(knownDocument)) {
+            updateRecrod(documentSnapshot);
         }
     }, err => {
         console.log(`Encountered error: ${err}`);
@@ -33,7 +34,7 @@ async function stopObserving() {
     }
 }
 
-async function updateRecrod(docRef, doc) {
+async function updateRecrod(doc) {
     // cancel subscription in order to not affect updates.
     stopObserving();
 
