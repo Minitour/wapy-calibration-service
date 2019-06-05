@@ -6,6 +6,10 @@ var cancelSubscription = undefined;
 var knownDocument = undefined;
 var cameraState = undefined;
 
+async function sleep(millis) {
+    return new Promise(resolve => setTimeout(resolve, millis));
+  }
+
 async function startObserving(cameraId) {
     // cancel subscription before creating a new one.
     stopObserving();
@@ -85,6 +89,8 @@ async function updateRecrod(doc) {
     }
 
     knownDocument = await doc.ref.get();
+    
+    sleep(3000);
 
     // start observing
     startObserving(doc.id);
