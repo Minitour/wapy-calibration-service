@@ -61,12 +61,12 @@ async function updateRecrod(docRef, doc) {
 
 
     // update record
-    console.log("Updating document.")
-    try {
-        await docRef.update({ last_updated: new Date().getTime() });
-    }catch(e) {
-        console.log(e);
-    }
+    // console.log("Updating document.")
+    // try {
+    //     await docRef.update({ last_updated: new Date().getTime() });
+    // }catch(e) {
+    //     console.log(e);
+    // }
 
     // start observing
     startObserving(doc.id);
