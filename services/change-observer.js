@@ -30,6 +30,8 @@ async function startObserving(cameraId) {
 
             if (!documentSnapshot.isEqual(knownDocument)) {
                 console.log('knownDocument is not equal to documentSnapshot')
+                console.log(documentSnapshot.data().last_ping)
+                console.log(knownDocument.data().last_ping)
                 updateRecrod(documentSnapshot);
             }
 
@@ -78,10 +80,11 @@ async function updateRecrod(doc) {
     // update the document (notify ping)
     try {
         await doc.ref.update({ last_ping: new Date().getTime() });
-        knownDocument = await doc.ref.get();
     } catch (e) {
         console.log('Failed to update.');
     }
+
+    knownDocument = await doc.ref.get();
 
     // start observing
     startObserving(doc.id);
