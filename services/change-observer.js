@@ -19,8 +19,10 @@ async function startObserving(cameraId) {
     
     console.log("Creating Subscription");
     cancelSubscription = doc.onSnapshot(documentSnapshot => {
-        if (documentSnapshot.exists && !documentSnapshot.isEqual(knownDocument)) {
-            updateRecrod(documentSnapshot);
+        if (documentSnapshot.exists) {
+            if (knownDocument == undefined || documentSnapshot.isEqual(knownDocument)) {
+                updateRecrod(documentSnapshot);
+            }
         }
     }, err => {
         console.log(`Encountered error: ${err}`);
@@ -60,7 +62,7 @@ async function updateRecrod(doc) {
         console.log(e);
     }
 
-
+    knownDocument = doc;
     // update record
     // console.log("Updating document.")
     // try {
