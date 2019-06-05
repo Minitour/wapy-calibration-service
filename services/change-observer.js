@@ -31,10 +31,10 @@ async function startObserving(cameraId) {
                 updateRecrod(documentSnapshot);
                 return
             }
+            console.log(knownDocument.updateTime)
             console.log(documentSnapshot.updateTime)
-            if (documentSnapshot.updateTime != knownDocument.updateTime) {
+            if (!documentSnapshot.updateTime.isEqual(knownDocument.updateTime)) {
                 console.log('knownDocument is not equal to documentSnapshot')
-                console.log(knownDocument.updateTime)
                 updateRecrod(documentSnapshot);
             }
 
