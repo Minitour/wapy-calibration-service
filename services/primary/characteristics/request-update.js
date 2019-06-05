@@ -6,8 +6,11 @@ const sharedInstance = require('../../shared-instance');
 const notifyService = require('../../service-notifier');
 const App = require('../../firebase-application');
 require("firebase/functions");
+
+const ChangeObserver = require('../../change-observer');
 const functions = App.functions();
 const getCamera = functions.httpsCallable('getCamera');
+
 
 const Characteristic = bleno.Characteristic;
 
@@ -60,6 +63,8 @@ class RequestUpdateCharacteristic {
             console.log(JSON.stringify(data));
             sharedInstance.cloudObject = result.data.data;
             await notifyService();
+            // start listening to camera changes
+            ChangeObserver.start(data.id);
         } catch (e) {
             console.log(e);
         }

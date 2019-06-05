@@ -26,7 +26,7 @@ function PrimaryService() {
         ]
     });
 }
-  
+
 util.inherits(PrimaryService, BlenoPrimaryService);
 
 module.exports = PrimaryService;
