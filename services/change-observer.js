@@ -47,7 +47,6 @@ async function updateRecrod(doc) {
     const cameraEnabled = data.camera_enabled;
 
     console.log("updateRecrod:");
-    console.log(data);
 
     // as long as the state is different from the last known state.
     if (cameraState != cameraEnabled) {
@@ -66,19 +65,17 @@ async function updateRecrod(doc) {
         }
     }
     cameraState = cameraEnabled;
-    knownDocument = doc;
-    // update record
-    // console.log("Updating document.")
-    // try {
-    //     await docRef.update({ last_updated: new Date().getTime() });
-    // }catch(e) {
-    //     console.log(e);
-    // }
+
+    // update the document (notify ping)
+    try {
+        knownDocument = await doc.ref.update({ last_ping: new Date().getTime() });
+    } catch (e) {
+        console.log('Failed to update.');
+    }
 
     // start observing
     startObserving(doc.id);
 }
-
 
 module.exports = {
     start: startObserving,
