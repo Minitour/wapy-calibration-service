@@ -7,7 +7,7 @@ var cancelSubscription = undefined;
 async function startObserving(cameraId) {
     // cancel subscription before creating a new one.
     stopObserving();
-    
+
     if (cameraId == undefined) {
         console.log("Camera ID Is undefined!");
         return
@@ -15,12 +15,10 @@ async function startObserving(cameraId) {
 
     const doc = db.collection('cameras').doc(cameraId);
 
-    cancelSubscription = doc.onSnapshot(querySnapshot => {
-        querySnapshot.docChanges().forEach(change => {
-            if (change.type === 'modified') {
-                updateRecrod(change.doc);
-            }
-        });
+    cancelSubscription = doc.onSnapshot(documentSnapshot => {
+        if (documentSnapshot.exists) {
+            updateRecrod(documentSnapshot);
+        }
     }, err => {
         console.log(`Encountered error: ${err}`);
     });
