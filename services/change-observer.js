@@ -20,7 +20,7 @@ async function startObserving(cameraId) {
     console.log("Creating Subscription");
     cancelSubscription = doc.onSnapshot(documentSnapshot => {
         if (documentSnapshot.exists) {
-            if (knownDocument == undefined || documentSnapshot.isEqual(knownDocument)) {
+            if (knownDocument == undefined || !documentSnapshot.isEqual(knownDocument)) {
                 updateRecrod(documentSnapshot);
             }
         }
