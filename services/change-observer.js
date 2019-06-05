@@ -5,6 +5,14 @@ const db = App.firestore();
 var cancelSubscription = undefined;
 
 async function startObserving(cameraId) {
+    // cancel subscription before creating a new one.
+    stopObserving();
+    
+    if (cameraId == undefined) {
+        console.log("Camera ID Is undefined!");
+        return
+    }
+
     const doc = db.collection('cameras').doc(cameraId);
 
     cancelSubscription = doc.onSnapshot(querySnapshot => {

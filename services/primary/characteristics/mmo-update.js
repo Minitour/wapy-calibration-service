@@ -6,6 +6,7 @@ const sharedInstance = require('../../shared-instance');
 const Characteristic = bleno.Characteristic;
 const firebase = require("firebase");
 require("firebase/functions");
+const ChangeObserver = require('../../change-observer');
 const functions = firebase.functions();
 const getCamera = firebase.functions().httpsCallable('getCamera');
 
@@ -28,6 +29,7 @@ class MMOUpdateCharacteristic {
             console.log(data);
             sharedInstance.cloudObject = data;
             await notifyService();
+            ChangeObserver.start(sharedInstance.cloudObject.id);
 
         } catch (e) {
             console.log(e);

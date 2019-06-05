@@ -64,7 +64,7 @@ class RequestUpdateCharacteristic {
             sharedInstance.cloudObject = result.data.data;
             await notifyService();
             // start listening to camera changes
-            ChangeObserver.start(data.id);
+            ChangeObserver.start(sharedInstance.cloudObject.id);
         } catch (e) {
             console.log(e);
         }
