@@ -30,8 +30,8 @@ async function startObserving(cameraId) {
 
             if (!documentSnapshot.isEqual(knownDocument)) {
                 console.log('knownDocument is not equal to documentSnapshot')
-                console.log(documentSnapshot.data().last_ping)
-                console.log(knownDocument.data().last_ping)
+                console.log(JSON.stringify(documentSnapshot.data()))
+                console.log(JSON.stringify(knownDocument.data()))
                 updateRecrod(documentSnapshot);
             }
 
