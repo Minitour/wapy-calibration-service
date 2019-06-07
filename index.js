@@ -22,7 +22,7 @@ process.env['_CHAR_BSSID_ID'] = '62221e9cfea145de865c8d718dd6a98f';
 process.env['_CHAR_CAMERA_ID'] = '3367142e91d445128ac6e64bb57ae9c8';
 process.env['_CHAR_RQ_UPDATE_ID'] = '336165350c8f4ef9b3588893fb87c859';
 
-
+//test
 const bleno = require('bleno')
 const PrimaryService = require('./services/primary/service');
 const App = require('./services/firebase-application');
@@ -71,7 +71,7 @@ fs.readFile(`${homedir}/wapy/camera.json`, (err, data) => {
         console.error(err);
         return;
     }
-    
+
     try {
         const cloudObject = JSON.parse(data);
         sharedInstance.cloudObject = cloudObject;
