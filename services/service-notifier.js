@@ -12,7 +12,7 @@ const writeFilePromise = (file, data) => {
     });
 };
 
-module.exports = async function() {
+module.exports = async function () {
     const cloudObject = sharedInstance.cloudObject;
 
     console.log(JSON.stringify(cloudObject))
@@ -20,6 +20,12 @@ module.exports = async function() {
     // write that to disk
     await writeFilePromise(`${homedir}/wapy/camera.json`, JSON.stringify(cloudObject));
 
-    // call service manager to restart the service
-    await fetch('http://localhost:8001/camera/2', { method: 'POST'});
+    try {
+        // call service manager to restart the service
+        await fetch('http://localhost:8001/camera/2', { method: 'POST' });
+    }catch (e) {
+        console.log('Could not reach service manager.');
+        console.log(e);
+    }
+    
 }
