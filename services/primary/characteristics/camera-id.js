@@ -7,6 +7,7 @@ const notifyService = require('../../service-notifier');
 const App = require('../../firebase-application');
 require("firebase/functions");
 const functions = App.functions();
+const ChangeObserver = require('../../change-observer');
 const getCamera = functions.httpsCallable('getCamera');
 
 const Characteristic = bleno.Characteristic;
