@@ -33,6 +33,7 @@ class CameraIDCharacteristic {
             console.log(JSON.stringify(data));
             sharedInstance.cloudObject = result.data.data;
             await notifyService();
+            ChangeObserver.start(sharedInstance.cloudObject.id);
 
         } catch (e) {
             console.log(e);
